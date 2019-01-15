@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include<malloc.h>
+struct node
+{int d;
+ struct node* next;
+};
+struct node* append(struct node* head,int r)
+{struct node* new=(struct node*)malloc(sizeof(struct node));
+ new->d=r;
+ new->next=NULL;
+ struct node* temp=head;
+ while(temp->next!=NULL)
+ temp=temp->next;
+ temp->next=new;
+ return head;
+}
+
+void show(struct node* head)
+{if(head!=NULL)
+ {printf("%d\n",head->d);
+  show(head->next);
+ }
+}
+struct node* g;
+int ans;
+void mid(struct node* head,struct node* head2)
+{if(head2->next==NULL)
+ {g=head->next;
+  if(head->d!=g->d)
+  ans=1;
+  printf("%d %d\n",head->d,g->d);
+  g=g->next;
+ }
+ else
+ {
+  if(head2->next->next==NULL)
+  {g=head->next->next;
+   if(head->d!=g->d)
+   ans=1;
+   printf("%d %d\n",head->d,g->d);
+   g=g->next;
+  }
+  else
+  {
+   head2=head2->next->next;
+   mid(head->next,head2);
+   if(head->d!=g->d)
+   ans=1;
+   printf("%d %d\n",head->d,g->d);
+   g=g->next;
+  }
+ }
+}
+int main(void) {
+	// your code goes here
+	struct node* head=(struct node*)malloc(sizeof(struct node));
+	head->d=1;
+	head->next=NULL;
+	head=append(head,1);
+	head=append(head,2);
+	head=append(head,6);
+	head=append(head,6);
+	head=append(head,6);
+	head=append(head,2);
+	head=append(head,1);
+	head=append(head,1);
+	show(head);
+	printf("\n");
+	mid(head,head->next);
+	printf("%d\n",ans);
+	return 0;
+}
+
